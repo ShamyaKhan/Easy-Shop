@@ -1,0 +1,17 @@
+require("dotenv").config();
+
+const PORT = Number(process.env.PORT);
+const MONGODB_URI = process.env.MONGODB_URI;
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+
+module.exports = {
+  PORT,
+  MONGODB_URI,
+  JWT_SECRET_KEY,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_CLOUD_NAME,
+};
