@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth/authRoutes");
 const adminProductRouter = require("./routes/admin/productRoutes");
+const shopProductRouter = require("./routes/shop/productRoutes");
+const shopCartRouter = require("./routes/shop/cartRoutes");
 const { PORT, MONGODB_URI } = require("./utils/constants");
 
 const app = express();
@@ -28,6 +30,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductRouter);
+app.use("/api/shop/products", shopProductRouter);
+app.use("/api/shop/cart", shopCartRouter);
 
 const startServer = async () => {
   try {
