@@ -6,6 +6,7 @@ const authRouter = require("./routes/auth/authRoutes");
 const adminProductRouter = require("./routes/admin/productRoutes");
 const shopProductRouter = require("./routes/shop/productRoutes");
 const shopCartRouter = require("./routes/shop/cartRoutes");
+const shopAddressRouter = require("./routes/shop/addressRoutes");
 const { PORT, MONGODB_URI } = require("./utils/constants");
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductRouter);
 app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopCartRouter);
+app.use("/api/shop/address", shopAddressRouter);
 
 const startServer = async () => {
   try {
