@@ -14,6 +14,6 @@ router.get("/get-address/:userId", fetchAllAddress);
 
 router.put("/update-address/:userId/:addressId", editAddress);
 
-router.delete("/delete/:userId/:addressId", deleteAddress);
+router.delete("/delete-address/:userId/:addressId", deleteAddress);
 
 module.exports = router;
