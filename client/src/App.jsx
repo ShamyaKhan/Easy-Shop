@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton";
+import PaymentReturn from "./pages/shop/payment-return";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -76,6 +77,7 @@ function App() {
           <Route path="account" element={<ShopAccount />} />
           <Route path="checkout" element={<ShopCheckout />} />
           <Route path="list" element={<ShopList />} />
+          <Route path="payment-return" element={<PaymentReturn />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/unauth-page" element={<UnauthPage />} />
