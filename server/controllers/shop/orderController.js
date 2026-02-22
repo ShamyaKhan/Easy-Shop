@@ -1,6 +1,7 @@
 const { STRIPE_SECRET_KEY } = require("../../utils/constants");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 const Order = require("../../models/Order");
+const Cart = require("../../models/Cart");
 
 const createOrder = async (req, res) => {
   try {
@@ -62,8 +63,8 @@ const createOrder = async (req, res) => {
 
 const capturePayment = async (req, res) => {
   try {
-    const { paymentId, payerId, orderId } = req.body;
-    let order = Order.findById(orderId);
+    const { paymentId, orderId } = req.body;
+    let order = await Order.findById(orderId);
 
     if (!order) {
       return res
@@ -72,13 +73,62 @@ const capturePayment = async (req, res) => {
     }
 
     order.paymentStatus = "paid";
-    ((order.orderStatus = "confirmed"), (order.paymentId = paymentId));
-    order.payerId = payerId;
+    order.orderStatus = "confirmed";
+    order.paymentId = paymentId;
+
+    const cartId = order.cartId;
+
+    await Cart.findByIdAndDelete(cartId);
 
     await order.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Order Confirmed!", data: order });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
 
-module.exports = { createOrder, capturePayment };
+const getAllOrdersByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const orders = await Order.find({ userId });
+
+    if (!orders.length) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No order found" });
+    }
+
+    res.status(200).json({ success: true, data: orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+const getOrderDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    res.status(200).json({ success: true, data: order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+module.exports = {
+  createOrder,
+  capturePayment,
+  getAllOrdersByUser,
+  getOrderDetails,
+};

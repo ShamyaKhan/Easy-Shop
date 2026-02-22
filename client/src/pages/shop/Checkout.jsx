@@ -5,6 +5,7 @@ import CartContent from "@/components/shop/CartContent";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { createNewOrder } from "@/store/shop/order-slice";
+import { toast } from "sonner";
 
 function ShopCheckout() {
   const { cartItems } = useSelector((state) => state.shoppingCart);
@@ -13,6 +14,8 @@ function ShopCheckout() {
   const [isPaymentStarted, setIsPaymentStarted] = useState(false);
   const dispatch = useDispatch();
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
+
+  console.log(cartItems);
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
@@ -26,6 +29,15 @@ function ShopCheckout() {
       : 0;
 
   function handleInitiatePayment() {
+    if (currentSelectedAddress === null) {
+      toast("Please select one address to proceed", { variant: "destructive" });
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      toast("Please add product to cart!", { variant: "destructive" });
+    }
+
     const orderData = {
       userId: user?.id,
       carId: cartItems?._id,
@@ -56,7 +68,6 @@ function ShopCheckout() {
     };
 
     dispatch(createNewOrder(orderData)).then((data) => {
-      console.log("Create Order:", data);
       if (data?.payload?.success) {
         setIsPaymentStarted(true);
       } else {
