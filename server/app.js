@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth/authRoutes");
 const adminProductRouter = require("./routes/admin/productRoutes");
+const adminOrderRouter = require("./routes/admin/orderRoutes");
 const shopProductRouter = require("./routes/shop/productRoutes");
 const shopCartRouter = require("./routes/shop/cartRoutes");
 const shopAddressRouter = require("./routes/shop/addressRoutes");
@@ -32,6 +33,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductRouter);
+app.use("/api/admin/orders", adminOrderRouter);
 app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopCartRouter);
 app.use("/api/shop/address", shopAddressRouter);

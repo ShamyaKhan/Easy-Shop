@@ -40,10 +40,13 @@ function ShopList() {
     (state) => state.shoppingProducts,
   );
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+
+  const categorySearchParam = searchParams.get("category");
 
   function handleSort(value) {
     setSort(value);
@@ -75,7 +78,23 @@ function ShopList() {
     dispatch(fetchProductDetails(currentProductId));
   }
 
-  function handleAddToCart(currentProductId) {
+  function handleAddToCart(currentProductId, totalStock) {
+    let getCartItems = cartItems.items || [];
+
+    if (getCartItems.length) {
+      const currentItemIdx = getCartItems.findIndex(
+        (item) => item.productId === currentProductId,
+      );
+
+      if (currentItemIdx > -1) {
+        const getQuantity = getCartItems[currentItemIdx].quantity;
+        if (getQuantity + 1 > totalStock) {
+          toast(`Only ${getQuantity} quantity can be added for this product`);
+          return;
+        }
+      }
+    }
+
     dispatch(
       addToCart({ userId: user?.id, productId: currentProductId, quantity: 1 }),
     ).then((data) => {
@@ -89,7 +108,7 @@ function ShopList() {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParam]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
@@ -111,6 +130,8 @@ function ShopList() {
       setOpenDetailsDialog(true);
     }
   }, [productDetails]);
+
+  console.log(productList);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

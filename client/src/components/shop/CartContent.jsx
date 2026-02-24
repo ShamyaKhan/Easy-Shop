@@ -7,8 +7,34 @@ import { toast } from "sonner";
 function CartContent({ cartItem }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
+  const { productList } = useSelector((state) => state.shoppingProducts);
 
   function handleUpdateQuantity(cartItem, actionType) {
+    if (actionType === "plus") {
+      let getCartItems = cartItems.items || [];
+
+      if (getCartItems.length) {
+        const currentCartItemIdx = getCartItems.findIndex(
+          (item) => item.productId === cartItem?.productId,
+        );
+
+        const currentProductIdx = productList.findIndex(
+          (product) => product._id === cartItem?.productId,
+        );
+
+        const totalStock = productList[currentProductIdx].totalStock;
+
+        if (currentCartItemIdx > -1) {
+          const getQuantity = getCartItems[currentCartItemIdx].quantity;
+          if (getQuantity + 1 > totalStock) {
+            toast(`Only ${getQuantity} quantity can be added for this product`);
+            return;
+          }
+        }
+      }
+    }
+
     dispatch(
       updateCartQuantity({
         userId: user?.id,

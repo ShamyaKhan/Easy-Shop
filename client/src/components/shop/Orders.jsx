@@ -67,7 +67,13 @@ function ShoppingOrders() {
                     <TableCell>{item?.orderDate.split("T")[0]}</TableCell>
                     <TableCell>
                       <Badge
-                        className={`py-1 px-3 ${item?.orderStatus === "confirmed" ? "bg-green-500" : "bg-black"}`}
+                        className={`py-1 px-3 ${
+                          item?.orderStatus === "confirmed"
+                            ? "bg-green-500"
+                            : item?.orderStatus === "rejected"
+                              ? "bg-red-500"
+                              : "bg-black"
+                        }`}
                       >
                         {item?.orderStatus}
                       </Badge>

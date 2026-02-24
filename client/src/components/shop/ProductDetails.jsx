@@ -13,8 +13,25 @@ import { setProductDetails } from "@/store/shop/product-slice";
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shoppingCart);
 
-  function handleAddToCart(currentProductId) {
+  function handleAddToCart(currentProductId, totalStock) {
+    let getCartItems = cartItems.items || [];
+
+    if (getCartItems.length) {
+      const currentItemIdx = getCartItems.findIndex(
+        (item) => item.productId === currentProductId,
+      );
+
+      if (currentItemIdx > -1) {
+        const getQuantity = getCartItems[currentItemIdx].quantity;
+        if (getQuantity + 1 > totalStock) {
+          toast(`Only ${getQuantity} quantity can be added for this product`);
+          return;
+        }
+      }
+    }
+
     dispatch(
       addToCart({ userId: user?.id, productId: currentProductId, quantity: 1 }),
     ).then((data) => {
@@ -72,12 +89,23 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             <span className="text-muted-foreground">(4.5)</span>
           </div>
           <div className="mt-5 mb-5">
-            <Button
-              className="w-full"
-              onClick={() => handleAddToCart(productDetails?._id)}
-            >
-              Add to Cart
-            </Button>
+            {productDetails?.totalStock === 0 ? (
+              <Button className="w-full opacity-60 cursor-not-allowed">
+                Out of Stock
+              </Button>
+            ) : (
+              <Button
+                className="w-full"
+                onClick={() =>
+                  handleAddToCart(
+                    productDetails?._id,
+                    productDetails?.totalStock,
+                  )
+                }
+              >
+                Add to Cart
+              </Button>
+            )}
           </div>
           <Separator />
           <div className="max-h-75 overflow-auto">

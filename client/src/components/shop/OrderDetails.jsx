@@ -24,10 +24,24 @@ function ShoppingOrderDetailsView({ orderDetails }) {
             <Label>${orderDetails?.totalAmount}</Label>
           </div>
           <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Payment Method</p>
+            <Label>{orderDetails?.paymentMethod}</Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Payment Status</p>
+            <Label>{orderDetails?.paymentStatus}</Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Status</p>
             <Label>
               <Badge
-                className={`py-1 px-3 ${orderDetails?.orderStatus === "confirmed" ? "bg-green-500" : "bg-black"}`}
+                className={`py-1 px-3 ${
+                  orderDetails?.orderStatus === "confirmed"
+                    ? "bg-green-500"
+                    : orderDetails?.orderStatus === "rejected"
+                      ? "bg-red-500"
+                      : "bg-black"
+                }`}
               >
                 {orderDetails?.orderStatus}
               </Badge>

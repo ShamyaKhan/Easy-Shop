@@ -2,6 +2,7 @@ const { STRIPE_SECRET_KEY } = require("../../utils/constants");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
+const Product = require("../../models/Product");
 
 const createOrder = async (req, res) => {
   try {
@@ -75,6 +76,17 @@ const capturePayment = async (req, res) => {
     order.paymentStatus = "paid";
     order.orderStatus = "confirmed";
     order.paymentId = paymentId;
+
+    for (let item of order.cartItems) {
+      let product = await Product.findById(item.productId);
+      if (!product) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Not enough stock" });
+      }
+      product.totalStock -= item.quantity;
+      await product.save();
+    }
 
     const cartId = order.cartId;
 
