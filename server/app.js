@@ -9,6 +9,8 @@ const shopProductRouter = require("./routes/shop/productRoutes");
 const shopCartRouter = require("./routes/shop/cartRoutes");
 const shopAddressRouter = require("./routes/shop/addressRoutes");
 const shopOrderRouter = require("./routes/shop/orderRoutes");
+const shopSearchRouter = require("./routes/shop/searchRoutes");
+const shopReviewRouter = require("./routes/shop/reviewRoutes");
 const { PORT, MONGODB_URI } = require("./utils/constants");
 
 const app = express();
@@ -38,6 +40,8 @@ app.use("/api/shop/products", shopProductRouter);
 app.use("/api/shop/cart", shopCartRouter);
 app.use("/api/shop/address", shopAddressRouter);
 app.use("/api/shop/order", shopOrderRouter);
+app.use("/api/shop/search", shopSearchRouter);
+app.use("/api/shop/review", shopReviewRouter);
 
 const startServer = async () => {
   try {
