@@ -11,6 +11,7 @@ const shopAddressRouter = require("./routes/shop/addressRoutes");
 const shopOrderRouter = require("./routes/shop/orderRoutes");
 const shopSearchRouter = require("./routes/shop/searchRoutes");
 const shopReviewRouter = require("./routes/shop/reviewRoutes");
+const commonFeatureRouter = require("./routes/common/featureRoutes");
 const { PORT, MONGODB_URI } = require("./utils/constants");
 
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/shop/address", shopAddressRouter);
 app.use("/api/shop/order", shopOrderRouter);
 app.use("/api/shop/search", shopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
+app.use("/api/common/feature", commonFeatureRouter);
 
 const startServer = async () => {
   try {
