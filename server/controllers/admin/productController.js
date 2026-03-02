@@ -9,7 +9,6 @@ const handleImageUpload = async (req, res) => {
 
     res.json({ success: true, result });
   } catch (err) {
-    console.log(err);
     res.json({ success: false, message: err.message });
   }
 };
@@ -42,7 +41,6 @@ const addProduct = async (req, res) => {
 
     res.status(201).json({ success: true, data: product });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
@@ -52,7 +50,6 @@ const fetchAllProducts = async (req, res) => {
     const allProducts = await Product.find({});
     res.status(201).json({ success: true, data: allProducts });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
@@ -93,7 +90,6 @@ const editProduct = async (req, res) => {
 
     res.status(200).json({ success: true, data: findProduct });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
@@ -111,7 +107,6 @@ const deleteProduct = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Product deleted!" });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ success: false, message: err.message });
   }
 };

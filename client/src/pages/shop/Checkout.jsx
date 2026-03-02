@@ -15,8 +15,6 @@ function ShopCheckout() {
   const dispatch = useDispatch();
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
 
-  console.log(cartItems);
-
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
       ? cartItems.items.reduce(

@@ -15,7 +15,7 @@ function PaymentReturn() {
       const currentOrderId = JSON.parse(
         sessionStorage.getItem("currentOrderId"),
       );
-      console.log(currentOrderId);
+
       dispatch(capturePayment({ paymentId, orderId: currentOrderId })).then(
         (data) => {
           if (data?.payload?.success) {

@@ -25,7 +25,6 @@ function AdminDashboard() {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
-  console.log("Feature Images List", featureImageList);
   return (
     <div>
       <ImageUpload

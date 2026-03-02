@@ -45,7 +45,6 @@ function CartContent({ cartItem }) {
             : cartItem?.quantity - 1,
       }),
     ).then((data) => {
-      console.log(data);
       if (data?.payload?.success) {
         toast("Cart Item Updated!");
       }
@@ -56,7 +55,6 @@ function CartContent({ cartItem }) {
     dispatch(
       deleteCartItem({ userId: user?.id, productId: cartItem?.productId }),
     ).then((data) => {
-      console.log(data);
       if (data?.payload?.success) {
         toast("Cart Item Deleted!");
       }

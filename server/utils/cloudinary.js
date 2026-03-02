@@ -15,7 +15,6 @@ cloudinary.config({
 const storage = new multer.memoryStorage();
 
 async function imageUploadUtil(file) {
-  console.log(CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET);
   const result = await cloudinary.uploader.upload(file, {
     resource_type: "auto",
   });

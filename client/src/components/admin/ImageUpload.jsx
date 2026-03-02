@@ -53,7 +53,7 @@ function ImageUpload({
       `${API_URL}/api/admin/products/upload-image`,
       data,
     );
-    console.log(response);
+
     if (response?.data?.success) {
       setUploadedImageUrl(response.data.result.url);
       setImageLoadingState(false);
