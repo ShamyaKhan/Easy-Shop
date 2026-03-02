@@ -1,4 +1,4 @@
-import ImageUpload from "@/components/admin/imageUpload";
+import ImageUpload from "@/components/admin/ImageUpload";
 import AdminProductTile from "@/components/admin/ProductTile";
 import Form from "@/components/common/Form";
 import { Button } from "@/components/ui/button";
