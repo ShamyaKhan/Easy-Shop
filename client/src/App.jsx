@@ -3,7 +3,7 @@ import "./App.css";
 import AuthLayout from "./components/auth/Layout";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import AdminLayout from "./components/admin/adminLayout";
+import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/dashboard";
 import AdminProducts from "./pages/admin/products";
 import AdminFeatures from "./pages/admin/features";
