@@ -12,13 +12,13 @@ const shopOrderRouter = require("./routes/shop/orderRoutes");
 const shopSearchRouter = require("./routes/shop/searchRoutes");
 const shopReviewRouter = require("./routes/shop/reviewRoutes");
 const commonFeatureRouter = require("./routes/common/featureRoutes");
-const { PORT, MONGODB_URI } = require("./utils/constants");
+const { PORT, MONGODB_URI, CLIENT_BASE_URL } = require("./utils/constants");
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: CLIENT_BASE_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: [
       "Content-Type",

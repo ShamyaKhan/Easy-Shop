@@ -1,4 +1,4 @@
-const { STRIPE_SECRET_KEY } = require("../../utils/constants");
+const { STRIPE_SECRET_KEY, CLIENT_BASE_URL } = require("../../utils/constants");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
@@ -33,8 +33,8 @@ const createOrder = async (req, res) => {
         },
         quantity: item.quantity,
       })),
-      success_url: `http://localhost:5173/shop/payment-return?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/shop/payment-cancel`,
+      success_url: `${CLIENT_BASE_URL}/shop/payment-return?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${CLIENT_BASE_URL}/shop/payment-cancel`,
     });
 
     // Save order with pending payment

@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { toast } from "sonner";
 import ProductDetailsDialog from "@/components/shop/ProductDetails";
+import { getFeatureImages } from "@/store/common-slice";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -52,12 +53,11 @@ function ShopHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shoppingProducts,
   );
+  const { featureImageList } = useSelector((state) => state.commonFeature);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const slides = [bannerOne, bannerTwo, bannerThree];
 
   function handleNavigateToShopListPage(currentItem, section) {
     sessionStorage.removeItem("filters");
@@ -93,11 +93,11 @@ function ShopHome() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % featureImageList.length);
+    }, 3000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [featureImageList]);
 
   useEffect(() => {
     dispatch(
@@ -108,23 +108,30 @@ function ShopHome() {
     );
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getFeatureImages());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-150 overflow-hidden">
-        {slides.map((slide, idx) => (
-          <img
-            src={slide}
-            key={idx}
-            className={`${idx === currentSlide ? "opacity-100" : "opacity-0"} absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-          />
-        ))}
+        {featureImageList && featureImageList.length > 0
+          ? featureImageList.map((slide, idx) => (
+              <img
+                src={slide?.image}
+                key={idx}
+                className={`${idx === currentSlide ? "opacity-100" : "opacity-0"} absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+              />
+            ))
+          : null}
         <Button
           variant="outline"
           size="icon"
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
           onClick={() =>
             setCurrentSlide(
-              (prev) => (prev - 1 + slides.length) % slides.length,
+              (prev) =>
+                (prev - 1 + featureImageList.length) % featureImageList.length,
             )
           }
         >
@@ -136,7 +143,8 @@ function ShopHome() {
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
           onClick={() =>
             setCurrentSlide(
-              (prev) => (prev + 1 + slides.length) % slides.length,
+              (prev) =>
+                (prev + 1 + featureImageList.length) % featureImageList.length,
             )
           }
         >

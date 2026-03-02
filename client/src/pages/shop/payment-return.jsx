@@ -18,7 +18,6 @@ function PaymentReturn() {
       console.log(currentOrderId);
       dispatch(capturePayment({ paymentId, orderId: currentOrderId })).then(
         (data) => {
-          console.log("data", data);
           if (data?.payload?.success) {
             sessionStorage.removeItem("currentOrderId");
             window.location.href = "/shop/payment-success";

@@ -5,6 +5,7 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+import { API_URL } from "@/utils/constants";
 
 function ImageUpload({
   imageFile,
@@ -14,6 +15,7 @@ function ImageUpload({
   setImageLoadingState,
   imageLoadingState,
   isEditMode,
+  isCustomStyling = false,
 }) {
   const inputRef = useRef(null);
 
@@ -48,7 +50,7 @@ function ImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:3000/api/admin/products/upload-image",
+      `${API_URL}/api/admin/products/upload-image`,
       data,
     );
     console.log(response);
@@ -65,7 +67,7 @@ function ImageUpload({
   }, [imageFile]);
 
   return (
-    <div className="w-full max-w-md mx-auto mt-4">
+    <div className={`w-full mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}>
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
       <div
         onDragOver={handleDragOver}
