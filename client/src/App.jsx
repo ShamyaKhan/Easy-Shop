@@ -42,7 +42,6 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       {/* common components */}
-      <h1>Header Component</h1>
       <Routes>
         <Route
           path="/"
